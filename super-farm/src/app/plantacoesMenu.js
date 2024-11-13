@@ -1,10 +1,10 @@
 "use client";
-import styles from "./plantacoes.module.css";
+import styles from "./plantacoesMenu.module.css";
 import { useState } from "react";
 import { useMoney } from "./contexts/moneyContext";
 
-export default function Plantacoes() {
-  const [money, getMoney, spendMoney] = useMoney();
+export default function PlantacoesMenu() {
+  const [money, setMoney, spendMoney] = useMoney();
   const [precoPlantar, setPrecoPlantar] = useState("");
   const [precoVender, setPrecoVender] = useState("");
   const [precoManutencao, setPrecoManutencao] = useState("");
@@ -14,6 +14,8 @@ export default function Plantacoes() {
     if (preco > 0 && spendMoney(preco)) {
       console.log("Você plantou com sucesso!");
       setPrecoPlantar("");
+    } else {
+      console.log("Você não tem dinheiro suficiente!");
     }
   };
 
@@ -22,6 +24,8 @@ export default function Plantacoes() {
     if (preco > 0 && spendMoney(preco)) {
       console.log("Você colheu com sucesso!");
       setPrecoManutencao("");
+    } else {
+      console.log("Você não tem dinheiro suficiente!");
     }
   };
 
@@ -30,6 +34,8 @@ export default function Plantacoes() {
     if (preco > 0 && spendMoney(preco)) {
       console.log("Você vendeu com sucesso!");
       setPrecoVender("");
+    } else {
+      console.log("Você não tem dinheiro suficiente!");
     }
   };
   return (
@@ -51,8 +57,9 @@ export default function Plantacoes() {
                 />
                 Dinheiro
               </span>{" "}
-              gasto para manter
+              gasto para manter: {money}
             </h1>
+            <h1>Dinheiro disponível: {money}</h1>
           </div>
         </div>
         <div className={styles.containerfilho}>
@@ -95,7 +102,6 @@ export default function Plantacoes() {
               placeholder="Insira o preço aqui"
               className={styles.input1}
               value={precoVender}
-              onChange={(e) => setPrecoVender(e.target.value)}
             />
           </div>
         </div>
