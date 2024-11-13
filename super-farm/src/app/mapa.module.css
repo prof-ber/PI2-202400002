@@ -1,0 +1,35 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #a4c543;
+}
+.img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.buttonContainer {
+  width: 5vw;
+  height: 5vw;
+  cursor: pointer;
+  position: absolute;
+  top: 10vw;
+  left: 30vw;
+}
+.imageoverlay {
+  width: 100%;
+  height: auto;
+}
+.terra {
+  width: 30vw;
+  height: 15vw;
+  position: absolute;
+  top: 30vw;
+  left: 50vw;
+  background-color: #f5b468;
+}
