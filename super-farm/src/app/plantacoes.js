@@ -1,105 +1,73 @@
 "use client";
-import styles from "./plantacoes.module.css";
 import { useState } from "react";
-import { useMoney } from "./contexts/moneyContext";
+import styles from "./plantacoes.module.css";
 
-export default function Plantacoes() {
-  const [money, getMoney, spendMoney] = useMoney();
-  const [precoPlantar, setPrecoPlantar] = useState("");
-  const [precoVender, setPrecoVender] = useState("");
-  const [precoManutencao, setPrecoManutencao] = useState("");
+export default function Plantacao() {
+  const [estado, setEstado] = useState("semente"); // Estado inicial da planta: 'semente'
+  const [milhosColhidos, setMilhosColhidos] = useState(0); // Contador de milhos colhidos
 
-  const handlePlantar = () => {
-    const preco = Number(precoPlantar);
-    if (preco > 0 && spendMoney(preco)) {
-      console.log("Você plantou com sucesso!");
-      setPrecoPlantar("");
+  // Função para plantar
+  const plantar = () => {
+    if (estado === "semente") {
+      setEstado("crescendo");
+
+      // Após 5 segundos, o milho fica pronto para ser colhido
+      setTimeout(() => {
+        setEstado("pronto");
+      }, 5000); // 5 segundos de crescimento
     }
   };
 
-  const handleColher = () => {
-    const preco = Number(precoManutencao);
-    if (preco > 0 && spendMoney(preco)) {
-      console.log("Você colheu com sucesso!");
-      setPrecoManutencao("");
+  // Função para colher
+  const colher = () => {
+    if (estado === "pronto") {
+      setMilhosColhidos(milhosColhidos + 1); // Incrementa o contador de milhos colhidos
+      setEstado("semente"); // Reinicia o ciclo
     }
   };
 
-  const handleVender = () => {
-    const preco = Number(precoVender);
-    if (preco > 0 && spendMoney(preco)) {
-      console.log("Você vendeu com sucesso!");
-      setPrecoVender("");
-    }
-  };
   return (
-    <>
-      <div className={styles.container}>
-        <div className={styles.cabecalho}>
-          <div className={styles.plant}>
-            <h1>
-              Progresso da <span className={styles.goodcolor}>Plantação</span>
-            </h1>
-          </div>
-          <div className={styles.keep}>
-            <h1>
-              <span className={styles.money}>
-                {" "}
-                <img
-                  style={{ display: "inline", width: "4rem", height: "auto" }}
-                  src="/money.svg"
-                />
-                Dinheiro
-              </span>{" "}
-              gasto para manter
-            </h1>
-          </div>
-        </div>
-        <div className={styles.containerfilho}>
-          <div className={styles.harvest}>
-            <button className={styles.colheita} onClick={handleColher}>
-              Colher
-            </button>
-          </div>
-          <div className={styles.price}>
-            <input
-              type="number"
-              placeholder="Insira o preço aqui"
-              className={styles.input1}
-              value={precoManutencao}
-              onChange={(e) => setPrecoManutencao(e.target.value)}
-            />
-          </div>
-          <div className={styles.grow}>
-            <button className={styles.cultivar} onClick={handlePlantar}>
-              Plantar
-            </button>
-          </div>
-          <div className={styles.price}>
-            <input
-              type="number"
-              placeholder="Insira o preço aqui"
-              className={styles.input1}
-              value={precoPlantar}
-              onChange={(e) => setPrecoPlantar(e.target.value)}
-            />
-          </div>
-          <div className={styles.sell}>
-            <button className={styles.venda} onClick={handleVender}>
-              Vender
-            </button>
-          </div>
-          <div className={styles.price}>
-            <input
-              type="number"
-              placeholder="Insira o preço aqui"
-              className={styles.input1}
-              value={precoVender}
-              onChange={(e) => setPrecoVender(e.target.value)}
-            />
-          </div>
-        </div>
+    <div className={styles.container}>
+      <h2>Status da Plantação: {estado}</h2>
+      <p>Milhos Colhidos: {milhosColhidos}</p>
+
+      {/* Botões para plantar e colher */}
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={plantar}
+          style={{
+            backgroundColor: "green",
+            color: "white",
+            padding: "10px 20px",
+            margin: "5px",
+          }}
+          disabled={estado === "crescendo" || estado === "pronto"}
+        >
+          Plantar
+        </button>
+
+        <button
+          onClick={colher}
+          style={{
+            backgroundColor: "yellow",
+            color: "black",
+            padding: "10px 20px",
+            margin: "5px",
+          }}
+          disabled={estado !== "pronto"}
+        >
+          Colher
+        </button>
       </div>
-    </>
+
+      {/* Exibição do estado atual da plantação */}
+      <div className={styles.terra}>
+        {estado === "semente" && <p>Plante o milho clicando no botão verde.</p>}
+        {estado === "crescendo" && <p>Milho está crescendo...</p>}
+        {estado === "pronto" && (
+          <p>O milho está pronto para ser colhido! Clique no botão amarelo.</p>
+        )}
+      </div>
+    </div>
   );
 }

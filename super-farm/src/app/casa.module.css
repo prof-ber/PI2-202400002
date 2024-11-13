@@ -1,0 +1,13 @@
+.buttonContainer {
+  width: 5vw;
+  height: 5vw;
+  cursor: pointer;
+  position: absolute;
+  top: 6vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.imageoverlay {
+  width: 100%;
+  height: auto;
+}

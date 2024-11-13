@@ -1,12 +1,12 @@
 import styles from "./melhorarPlantacao.module.css";
 
-export default function MelhorarPlantacao() {
+export default function MelhorarPlantacao({ melhorar }) {
   return (
-    <>
-      <div className={styles.container}>
-        <h1>Melhorar a Plantação</h1>
-        <button className={styles.button}>⬆️</button>
-      </div>
-    </>
+    <div className={styles.container}>
+      <h1>Melhorar a Plantação</h1>
+      <button className={styles.button} onClick={melhorar}>
+        ⬆️
+      </button>
+    </div>
   );
 }
