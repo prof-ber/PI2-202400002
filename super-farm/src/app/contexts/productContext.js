@@ -5,19 +5,35 @@ const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState(1000);
+  const [strawberry, setStrawberry] = useState(1000);
 
-  const handleHarvest = () => {
-    setProducts(products + 1);
+  const handleHarvest = (produto) => {
+    if (produto === "milho") {
+      setProducts(products + 1);
+    } else if (produto === "morango") {
+      setStrawberry(strawberry + 1);
+    }
   };
 
-  const handleSell = () => {
-    if (products > 0) {
-      setProducts(products - 1);
+  const handleSell = (produto, quantidade) => {
+    if (produto === "milho" && products >= quantidade) {
+      setProducts(products - quantidade);
+    } else if (produto === "morango" && strawberry >= quantidade) {
+      setStrawberry(strawberry - quantidade);
     }
   };
 
   return (
-    <ProductContext.Provider value={{ products, handleHarvest, handleSell }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        setProducts,
+        strawberry,
+        setStrawberry,
+        handleHarvest,
+        handleSell,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );
