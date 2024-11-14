@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Plantacoes from "./plantacoes";
+import PlantacoesMenu from "./plantacoesMenu";
 import { MoneyProvider } from "./contexts/moneyContext";
 import BarraSuperior from "./barraSuperior";
 import MelhorarPlantacao from "./melhorarPlantacao";
@@ -12,7 +12,7 @@ export default function Home() {
       <MoneyProvider>
         <div className={styles.container}>
           <Mapa />
-          <Plantacoes />
+          <PlantacoesMenu />
         </div>
       </MoneyProvider>
     </>
