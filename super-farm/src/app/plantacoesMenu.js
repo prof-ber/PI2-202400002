@@ -8,6 +8,7 @@ export default function PlantacoesMenu() {
   const [precoPlantar, setPrecoPlantar] = useState("");
   const [precoVender, setPrecoVender] = useState("");
   const [precoManutencao, setPrecoManutencao] = useState("");
+  const [produtos, setProdutos] = useState(0);
 
   const handlePlantar = () => {
     const preco = Number(precoPlantar);
@@ -23,6 +24,7 @@ export default function PlantacoesMenu() {
     const preco = Number(precoManutencao);
     if (preco > 0 && spendMoney(preco)) {
       console.log("Você colheu com sucesso!");
+      setProdutos(produtos + 1);
       setPrecoManutencao("");
     } else {
       console.log("Você não tem dinheiro suficiente!");
@@ -33,6 +35,8 @@ export default function PlantacoesMenu() {
     const preco = Number(precoVender);
     if (preco > 0 && spendMoney(preco)) {
       console.log("Você vendeu com sucesso!");
+      setMoney(money + preco);
+      setProdutos(produtos - 1);
       setPrecoVender("");
     } else {
       console.log("Você não tem dinheiro suficiente!");
@@ -60,6 +64,7 @@ export default function PlantacoesMenu() {
               gasto para manter: {money}
             </h1>
             <h1>Dinheiro disponível: {money}</h1>
+            <h1>Quantidade de produtos: {produtos}</h1>
           </div>
         </div>
         <div className={styles.containerfilho}>
@@ -102,6 +107,7 @@ export default function PlantacoesMenu() {
               placeholder="Insira o preço aqui"
               className={styles.input1}
               value={precoVender}
+              onChange={(e) => setPrecoVender(e.target.value)}
             />
           </div>
         </div>
