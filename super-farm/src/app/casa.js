@@ -6,14 +6,16 @@ import Plantacao from "./plantacoes";
 
 export default function Casa() {
   const [casa, setCasa] = useState(false);
-  const [plantacaoStatus, setPlantacaoStatus] = useState(0);
+  const [plantacaoStatus, setPlantacaoStatus] = useState(0); // Conta o número de melhorias
 
   const handleCasa = () => {
     setCasa(!casa);
   };
+
   const melhorarPlantacao = () => {
-    setPlantacaoStatus(plantacaoStatus + 1);
+    setPlantacaoStatus(plantacaoStatus + 1); // Incrementa a melhoria
   };
+
   return (
     <>
       <div className={styles.container}>

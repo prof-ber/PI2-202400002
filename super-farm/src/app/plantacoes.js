@@ -1,20 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./plantacoes.module.css";
 
-export default function Plantacao() {
+export default function Plantacao({ status }) {
   const [estado, setEstado] = useState("semente"); // Estado inicial da planta: 'semente'
   const [milhosColhidos, setMilhosColhidos] = useState(0); // Contador de milhos colhidos
+
+  const tempoCrescimento = 5000 - status * 1000; // Cada melhoria reduz 1 segundo do tempo de crescimento
 
   // Função para plantar
   const plantar = () => {
     if (estado === "semente") {
       setEstado("crescendo");
 
-      // Após 5 segundos, o milho fica pronto para ser colhido
+      // Após o tempo de crescimento, o milho fica pronto para ser colhido
       setTimeout(() => {
         setEstado("pronto");
-      }, 5000); // 5 segundos de crescimento
+      }, tempoCrescimento); // Tempo de crescimento ajustado conforme o status
     }
   };
 
