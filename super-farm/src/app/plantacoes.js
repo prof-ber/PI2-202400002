@@ -1,30 +1,37 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./plantacoes.module.css";
 
-export default function Plantacao({ status }) {
-  const [estado, setEstado] = useState("semente"); // Estado inicial da planta: 'semente'
-  const [milhosColhidos, setMilhosColhidos] = useState(0); // Contador de milhos colhidos
+export default function Plantacao() {
+  const [estado, setEstado] = useState("semente");
+  const [milhosColhidos, setMilhosColhidos] = useState(0);
+  const [tempoCrescimento, setTempoCrescimento] = useState(5000);
+  const [status, setStatus] = useState(0);
 
-  const tempoCrescimento = 5000 - status * 1000; // Cada melhoria reduz 1 segundo do tempo de crescimento
-
-  // Função para plantar
   const plantar = () => {
     if (estado === "semente") {
       setEstado("crescendo");
 
-      // Após o tempo de crescimento, o milho fica pronto para ser colhido
+      // A cada nível de melhoria, diminui o tempo de crescimento
+      let tempo = 5000 - status * 1000;
+      if (tempo < 3000) tempo = 3000; // Limita o tempo de crescimento mínimo em 3000ms
+
       setTimeout(() => {
         setEstado("pronto");
-      }, tempoCrescimento); // Tempo de crescimento ajustado conforme o status
+      }, tempo);
     }
   };
 
-  // Função para colher
   const colher = () => {
     if (estado === "pronto") {
-      setMilhosColhidos(milhosColhidos + 1); // Incrementa o contador de milhos colhidos
-      setEstado("semente"); // Reinicia o ciclo
+      setMilhosColhidos(milhosColhidos + 1);
+      setEstado("semente");
+    }
+  };
+
+  const melhorarPlantacao = () => {
+    if (status < 2) {
+      setStatus(status + 1); // Aumenta o nível de melhoria
     }
   };
 
@@ -32,8 +39,9 @@ export default function Plantacao({ status }) {
     <div className={styles.container}>
       <h2>Status da Plantação: {estado}</h2>
       <p>Milhos Colhidos: {milhosColhidos}</p>
+      <p>Nível de Melhoria: {status}/2</p>
+      <p>Tempo de Crescimento: {tempoCrescimento / 1000} segundos</p>
 
-      {/* Botões para plantar e colher */}
       <div className={styles.buttonContainer}>
         <button
           onClick={plantar}
@@ -43,7 +51,7 @@ export default function Plantacao({ status }) {
             padding: "10px 20px",
             margin: "5px",
           }}
-          disabled={estado === "crescendo" || estado === "pronto"}
+          disabled={estado !== "semente"}
         >
           Plantar
         </button>
@@ -60,9 +68,20 @@ export default function Plantacao({ status }) {
         >
           Colher
         </button>
+
+        <button
+          onClick={melhorarPlantacao}
+          style={{
+            backgroundColor: "blue",
+            color: "white",
+            padding: "10px 20px",
+            margin: "5px",
+          }}
+        >
+          Melhorar Plantação
+        </button>
       </div>
 
-      {/* Exibição do estado atual da plantação */}
       <div className={styles.terra}>
         {estado === "semente" && <p>Plante o milho clicando no botão verde.</p>}
         {estado === "crescendo" && <p>Milho está crescendo...</p>}
