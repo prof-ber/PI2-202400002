@@ -25,7 +25,6 @@ export default function Casa() {
 
   return (
     <div className={styles.container}>
-      <h1>Bem-vindo à Fazenda!</h1>
       <div className={styles.buttonContainer} onClick={handleCasa}>
         <img
           className={styles.imageoverlay}

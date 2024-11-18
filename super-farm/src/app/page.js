@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import PlantacoesMenuMenu from "./plantacoesMenuMenu";
+import PlantacoesMenu from "./plantacoesMenu";
 import { MoneyProvider } from "./contexts/moneyContext";
 import { ProductProvider } from "./contexts/productContext";
 import BarraSuperior from "./barraSuperior";
