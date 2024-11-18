@@ -6,6 +6,8 @@ import { ProductProvider } from "./contexts/productContext";
 import BarraSuperior from "./barraSuperior";
 import MelhorarPlantacao from "./melhorarPlantacao";
 import Mapa from "./mapa";
+import Casa from "./casa";
+import Plantacoes from "./plantacoes";
 
 export default function Home() {
   return (
@@ -13,7 +15,7 @@ export default function Home() {
       <MoneyProvider>
         <ProductProvider>
           <div className={styles.container}>
-            <Mapa />
+            <Casa />
             <BarraSuperior />
           </div>
         </ProductProvider>
