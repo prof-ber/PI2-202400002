@@ -4,9 +4,7 @@ import { createContext, useContext, useState } from "react";
 const MoneyContext = createContext();
 
 export function MoneyProvider({ children }) {
-  const [money, setMoney] = useState(100);
-
-  const getMoney = () => money;
+  const [money, setMoney] = useState(1500);
 
   const spendMoney = (amount) => {
     if (money >= amount) {
@@ -17,7 +15,7 @@ export function MoneyProvider({ children }) {
   };
 
   return (
-    <MoneyContext.Provider value={{ money, getMoney, spendMoney }}>
+    <MoneyContext.Provider value={{ money, setMoney, spendMoney }}>
       {children}
     </MoneyContext.Provider>
   );
@@ -30,5 +28,5 @@ export function useMoney() {
     throw new Error("useMoney must be used within a MoneyProvider");
   }
 
-  return [context.money, context.getMoney, context.spendMoney];
+  return [context.money, context.setMoney, context.spendMoney];
 }
