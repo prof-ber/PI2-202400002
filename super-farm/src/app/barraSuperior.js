@@ -6,10 +6,10 @@ import PlantacoesMenu from "./plantacoesMenu";
 import { useMoney } from "./contexts/moneyContext";
 
 export default function BarraSuperior() {
-  const { products, strawberry } = useProducts();
+  const { products, strawberry, corn, pumpkin } = useProducts();
   const [money] = useMoney();
 
-  useEffect(() => {}, [products, strawberry]);
+  useEffect(() => {}, [products, strawberry, corn, pumpkin]);
   return (
     <>
       <div className={styles.container}>
@@ -18,6 +18,8 @@ export default function BarraSuperior() {
         <div className={styles.containerfilho}>
           <div className={styles.produto}>🌾: {products}</div>
           <div className={styles.produto}>🍓: {strawberry}</div>
+          <div className={styles.produto}>🌽: {corn}</div>
+          <div className={styles.produto}>🎃: {pumpkin}</div>
         </div>
       </div>
     </>

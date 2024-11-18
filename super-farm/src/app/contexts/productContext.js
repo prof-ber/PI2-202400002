@@ -6,20 +6,30 @@ const ProductContext = createContext();
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState(1000);
   const [strawberry, setStrawberry] = useState(1000);
+  const [corn, setCorn] = useState(1000);
+  const [pumpkin, setPumpkin] = useState(1000);
 
   const handleHarvest = (produto) => {
-    if (produto === "milho") {
+    if (produto === "trigo") {
       setProducts(products + 1);
     } else if (produto === "morango") {
       setStrawberry(strawberry + 1);
+    } else if (produto === "milho") {
+      setCorn(corn + 1);
+    } else if (produto === "abóbora") {
+      setPumpkin(pumpkin + 1);
     }
   };
 
   const handleSell = (produto, quantidade) => {
-    if (produto === "milho" && products >= quantidade) {
+    if (produto === "trigo" && products >= quantidade) {
       setProducts(products - quantidade);
     } else if (produto === "morango" && strawberry >= quantidade) {
       setStrawberry(strawberry - quantidade);
+    } else if (produto === "milho" && corn >= quantidade) {
+      setCorn(corn - quantidade);
+    } else if (produto === "abóbora" && pumpkin >= quantidade) {
+      setPumpkin(pumpkin - quantidade);
     }
   };
 
@@ -30,6 +40,10 @@ export function ProductProvider({ children }) {
         setProducts,
         strawberry,
         setStrawberry,
+        corn,
+        setCorn,
+        pumpkin,
+        setPumpkin,
         handleHarvest,
         handleSell,
       }}

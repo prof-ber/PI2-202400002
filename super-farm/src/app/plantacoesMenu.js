@@ -8,14 +8,21 @@ export default function PlantacoesMenu() {
   const [money, setMoney] = useMoney();
   const [precoVender, setPrecoVender] = useState("");
   const [quantidadeVender, setQuantidadeVender] = useState(1);
-  const { products, strawberry, handleSell } = useProducts();
+  const { products, strawberry, corn, pumpkin, handleSell } = useProducts();
   const [produtoSelecionado, setProdutoSelecionado] = useState("milho");
 
   const [error, setError] = useState("");
 
   const handleVender = () => {
     const preco = Number(precoVender);
-    const estoqueAtual = produtoSelecionado === "milho" ? products : strawberry;
+    const estoqueAtual =
+      produtoSelecionado === "trigo"
+        ? products
+        : "morango"
+        ? strawberry
+        : "milho"
+        ? corn
+        : pumpkin;
 
     if (preco <= 0) {
       setError("Preço inválido! Insira um preço maior que zero.");
@@ -40,7 +47,11 @@ export default function PlantacoesMenu() {
   return (
     <div className={styles.container}>
       <div className={styles.sell}>
-        <button className={styles.venda} onClick={handleVender}>
+        <button
+          style={{ cursor: "pointer" }}
+          className={styles.venda}
+          onClick={handleVender}
+        >
           Vender
         </button>
       </div>
@@ -68,8 +79,10 @@ export default function PlantacoesMenu() {
           onChange={(e) => setProdutoSelecionado(e.target.value)}
           className={styles.input1}
         >
-          <option value="milho">Milho</option>
+          <option value="trigo">Trigo</option>
           <option value="morango">Morango</option>
+          <option value="milho">Milho</option>
+          <option value="abóbora">Abóbora</option>
         </select>
       </div>
       {error && <div className={styles.error}>{error}</div>}
