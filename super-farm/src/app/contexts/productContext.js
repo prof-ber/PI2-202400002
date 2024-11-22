@@ -8,6 +8,10 @@ export function ProductProvider({ children }) {
   const [strawberry, setStrawberry] = useState(1000);
   const [corn, setCorn] = useState(1000);
   const [pumpkin, setPumpkin] = useState(1000);
+  const [precoMilho, setPrecoMilho] = useState(5);
+  const [precoMorango, setPrecoMorango] = useState(10);
+  const [precoTrigo, setPrecoTrigo] = useState(20);
+  const [precoAbobora, setPrecoAbobora] = useState(15);
 
   const handleHarvest = (produto) => {
     if (produto === "trigo") {
@@ -33,6 +37,13 @@ export function ProductProvider({ children }) {
     }
   };
 
+  const updateProductPrice = (produto, novoPreco) => {
+    if (produto === "milho") setPrecoMilho(novoPreco);
+    if (produto === "morango") setPrecoMorango(novoPreco);
+    if (produto === "trigo") setPrecoTrigo(novoPreco);
+    if (produto === "abóbora") setPrecoAbobora(novoPreco);
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -44,8 +55,17 @@ export function ProductProvider({ children }) {
         setCorn,
         pumpkin,
         setPumpkin,
+        precoMilho,
+        setPrecoMilho,
+        precoMorango,
+        setPrecoMorango,
+        precoTrigo,
+        setPrecoTrigo,
+        precoAbobora,
+        setPrecoAbobora,
         handleHarvest,
         handleSell,
+        updateProductPrice, // Add this line
       }}
     >
       {children}

@@ -42,5 +42,9 @@ export function MarketProvider({ children }) {
 }
 
 export function useMarket() {
-  return useContext(MarketContext);
+  const context = useContext(MarketContext);
+  if (!context) {
+    throw new Error("useMarket must be used within a MarketProvider");
+  }
+  return context;
 }

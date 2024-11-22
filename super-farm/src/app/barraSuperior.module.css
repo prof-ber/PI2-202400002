@@ -4,6 +4,7 @@
   justify-content: space-evenly;
   align-items: center;
   z-index: 10;
+  padding-bottom: 1rem;
 }
 .recursos {
   width: 20vw;

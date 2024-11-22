@@ -6,18 +6,21 @@ import { ProductProvider } from "./contexts/productContext";
 import BarraSuperior from "./barraSuperior";
 import MelhorarPlantacao from "./melhorarPlantacao";
 import Mapa from "./mapa";
+import { MarketProvider } from "./contexts/marketContext";
 
 export default function Home() {
   return (
     <>
-      <MoneyProvider>
-        <ProductProvider>
-          <div className={styles.container}>
-            <Mapa />
-            <BarraSuperior />
-          </div>
-        </ProductProvider>
-      </MoneyProvider>
+      <MarketProvider>
+        <MoneyProvider>
+          <ProductProvider>
+            <div className={styles.container}>
+              <Mapa />
+              <BarraSuperior />
+            </div>
+          </ProductProvider>
+        </MoneyProvider>
+      </MarketProvider>
     </>
   );
 }
