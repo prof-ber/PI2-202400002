@@ -7,11 +7,11 @@ export function ProductProvider({ children }) {
   const [products, setProducts] = useState(1000);
   const [strawberry, setStrawberry] = useState(1000);
 
-  const handleHarvest = (produto) => {
+  const handleHarvest = (produto, quantidade) => {
     if (produto === "milho") {
-      setProducts(products + 1);
+      setProducts(products + quantidade); // Incrementando a quantidade de milho
     } else if (produto === "morango") {
-      setStrawberry(strawberry + 1);
+      setStrawberry(strawberry + quantidade); // Incrementando a quantidade de morango
     }
   };
 

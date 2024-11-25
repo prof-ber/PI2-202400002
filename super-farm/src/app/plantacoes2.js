@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import styles from "./plantacoes.module.css";
+import styles from "./plantacoes2.module.css";
 import { useProducts } from "./contexts/productContext";
 
-export default function Plantacao() {
+export default function Plantacao2() {
   const [estado, setEstado] = useState("semente");
-  const [milhosColhidos, setMilhosColhidos] = useState(0);
+  const [morangosColhidos, setMorangosColhidos] = useState(0);
   const [tempoCrescimento, setTempoCrescimento] = useState(5000);
   const [status, setStatus] = useState(0);
   const { products, setProducts, strawberry, setStrawberry } = useProducts();
@@ -15,7 +15,7 @@ export default function Plantacao() {
       setEstado("crescendo");
 
       // A cada nível de melhoria, diminui o tempo de crescimento
-      let tempo = 5000 - status * 1000;
+      let tempo = 7000 - status * 1000;
       if (tempo < 3000) tempo = 3000; // Limita o tempo de crescimento mínimo em 3000ms
 
       setTimeout(() => {
@@ -26,8 +26,8 @@ export default function Plantacao() {
 
   const colher = () => {
     if (estado === "pronto") {
-      setProducts(products + 100);
-      setMilhosColhidos(milhosColhidos + 100);
+      setStrawberry(strawberry + 100);
+      setMorangosColhidos(morangosColhidos + 100);
       setEstado("semente");
     }
   };
@@ -41,7 +41,7 @@ export default function Plantacao() {
   return (
     <div className={styles.container}>
       <h2>Status da Plantação: {estado}</h2>
-      <p>Milhos Colhidos: {milhosColhidos}</p>
+      <p>Morangos Colhidos: {morangosColhidos}</p>
       <p>Nível de Melhoria: {status}/2</p>
       <p>Tempo de Crescimento: {tempoCrescimento / 1000} segundos</p>
 
@@ -86,10 +86,15 @@ export default function Plantacao() {
       </div>
 
       <div className={styles.terra}>
-        {estado === "semente" && <p>Plante o milho clicando no botão verde.</p>}
-        {estado === "crescendo" && <p>Milho está crescendo...</p>}
+        {estado === "semente" && (
+          <p>Plante os morangos clicando no botão verde.</p>
+        )}
+        {estado === "crescendo" && <p>Morangos estão crescendo...</p>}
         {estado === "pronto" && (
-          <p>O milho está pronto para ser colhido! Clique no botão amarelo.</p>
+          <p>
+            Os morangos estão prontos para serem colhidos! Clique no botão
+            amarelo.
+          </p>
         )}
       </div>
     </div>

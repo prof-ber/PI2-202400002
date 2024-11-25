@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
   background-color: #a4c543;
+  width: auto;
 }
 .barraSuperior {
   width: auto;
