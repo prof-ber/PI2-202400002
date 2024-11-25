@@ -6,21 +6,42 @@ const ProductContext = createContext();
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState(1000);
   const [strawberry, setStrawberry] = useState(1000);
+  const [corn, setCorn] = useState(1000);
+  const [pumpkin, setPumpkin] = useState(1000);
+  const [precoMilho, setPrecoMilho] = useState(5);
+  const [precoMorango, setPrecoMorango] = useState(10);
+  const [precoTrigo, setPrecoTrigo] = useState(20);
+  const [precoAbobora, setPrecoAbobora] = useState(15);
 
   const handleHarvest = (produto, quantidade) => {
-    if (produto === "milho") {
+    if (produto === "trigo") {
       setProducts(products + quantidade); // Incrementando a quantidade de milho
     } else if (produto === "morango") {
       setStrawberry(strawberry + quantidade); // Incrementando a quantidade de morango
+    } else if (produto === "milho") {
+      setCorn(corn + 1);
+    } else if (produto === "abóbora") {
+      setPumpkin(pumpkin + 1);
     }
   };
 
   const handleSell = (produto, quantidade) => {
-    if (produto === "milho" && products >= quantidade) {
+    if (produto === "trigo" && products >= quantidade) {
       setProducts(products - quantidade);
     } else if (produto === "morango" && strawberry >= quantidade) {
       setStrawberry(strawberry - quantidade);
+    } else if (produto === "milho" && corn >= quantidade) {
+      setCorn(corn - quantidade);
+    } else if (produto === "abóbora" && pumpkin >= quantidade) {
+      setPumpkin(pumpkin - quantidade);
     }
+  };
+
+  const updateProductPrice = (produto, novoPreco) => {
+    if (produto === "milho") setPrecoMilho(novoPreco);
+    if (produto === "morango") setPrecoMorango(novoPreco);
+    if (produto === "trigo") setPrecoTrigo(novoPreco);
+    if (produto === "abóbora") setPrecoAbobora(novoPreco);
   };
 
   return (
@@ -30,8 +51,21 @@ export function ProductProvider({ children }) {
         setProducts,
         strawberry,
         setStrawberry,
+        corn,
+        setCorn,
+        pumpkin,
+        setPumpkin,
+        precoMilho,
+        setPrecoMilho,
+        precoMorango,
+        setPrecoMorango,
+        precoTrigo,
+        setPrecoTrigo,
+        precoAbobora,
+        setPrecoAbobora,
         handleHarvest,
         handleSell,
+        updateProductPrice, // Add this line
       }}
     >
       {children}

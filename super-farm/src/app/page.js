@@ -10,20 +10,25 @@ import Mapa from "./mapa";
 import Casa from "./casa";
 import Plantacoes from "./plantacoes";
 import Plantacoes2 from "./plantacoes2";
+import { MarketProvider } from "./contexts/marketContext";
+import Farmers from "./farmers";
 
 export default function Home() {
   return (
     <>
-      <MoneyProvider>
-        <ProductProvider>
-          <PlantacaoProvider>
-            <div className={styles.container}>
-              <BarraSuperior />
-              <Casa />
-            </div>
-          </PlantacaoProvider>
-        </ProductProvider>
-      </MoneyProvider>
+      <MarketProvider>
+        <MoneyProvider>
+          <ProductProvider>
+            <PlantacaoProvider>
+              <div className={styles.container}>
+                <BarraSuperior />
+                <Casa />
+                <Farmers />
+              </div>
+            </PlantacaoProvider>
+          </ProductProvider>
+        </MoneyProvider>
+      </MarketProvider>
     </>
   );
 }

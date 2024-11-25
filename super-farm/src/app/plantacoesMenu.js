@@ -1,21 +1,54 @@
 "use client";
 import styles from "./plantacoesMenu.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMoney } from "./contexts/moneyContext";
 import { useProducts } from "./contexts/productContext";
+import { useMarket } from "./contexts/marketContext";
 
 export default function PlantacoesMenu() {
   const [money, setMoney] = useMoney();
   const [precoVender, setPrecoVender] = useState("");
   const [quantidadeVender, setQuantidadeVender] = useState(1);
-  const { products, strawberry, handleSell } = useProducts();
+  const {
+    products,
+    strawberry,
+    corn,
+    pumpkin,
+    handleSell,
+    precoMilho,
+    precoMorango,
+    precoTrigo,
+    precoAbobora,
+  } = useProducts();
   const [produtoSelecionado, setProdutoSelecionado] = useState("milho");
+  const { products: marketProducts } = useMarket();
 
   const [error, setError] = useState("");
+  const [precoMercado, setPrecoMercado] = useState("0.00");
+
+  useEffect(() => {
+    const selectedProduct = marketProducts.find(
+      (p) => p.name === produtoSelecionado
+    );
+    if (selectedProduct) {
+      setPrecoMercado(selectedProduct.price.toFixed(2));
+    } else {
+      setPrecoMercado("0.00");
+    }
+  }, [produtoSelecionado, marketProducts]);
 
   const handleVender = () => {
     const preco = Number(precoVender);
-    const estoqueAtual = produtoSelecionado === "milho" ? products : strawberry;
+    const estoqueAtual =
+      produtoSelecionado === "trigo"
+        ? products
+        : produtoSelecionado === "morango"
+        ? strawberry
+        : produtoSelecionado === "milho"
+        ? corn
+        : pumpkin;
+
+    const marketPrice = Number(precoMercado);
 
     if (preco <= 0) {
       setError("Preço inválido! Insira um preço maior que zero.");
@@ -26,25 +59,59 @@ export default function PlantacoesMenu() {
         `Você não tem ${produtoSelecionado} suficiente! Você tem apenas ${estoqueAtual} unidade(s).`
       );
     } else {
-      console.log(
-        `Você vendeu ${quantidadeVender} ${produtoSelecionado}(s) com sucesso!`
-      );
-      setMoney(money + preco * quantidadeVender); // Aumenta o saldo
-      handleSell(produtoSelecionado, quantidadeVender); // Diminui a quantidade do produto selecionado
-      setPrecoVender(""); // Limpa o campo de preço
-      setQuantidadeVender(1); // Reseta a quantidade de venda
-      setError(""); // Limpa qualquer erro anterior
+      const priceDifference = Math.abs(preco - marketPrice) / marketPrice;
+      const baseChance = 0.7;
+      const successChance = Math.max(0, baseChance - priceDifference);
+
+      if (Math.random() < successChance) {
+        const totalEarnings = preco * quantidadeVender;
+        setMoney((prevMoney) => prevMoney + totalEarnings);
+        handleSell(produtoSelecionado, quantidadeVender);
+        setError(
+          `Venda bem-sucedida! Você vendeu ${quantidadeVender} ${produtoSelecionado} (s) e ganhou R$${totalEarnings.toFixed(
+            2
+          )}.`
+        );
+      } else {
+        handleSell(produtoSelecionado, quantidadeVender);
+        setError(
+          `Venda falhou! Você perdeu ${quantidadeVender} ${produtoSelecionado}(s).`
+        );
+      }
+
+      setPrecoVender(""); // Clear the price field
+      setQuantidadeVender(1); // Reset the sale quantity
+    }
+  };
+
+  const getProductPrice = (product) => {
+    switch (product) {
+      case "milho":
+        return precoMilho;
+      case "morango":
+        return precoMorango;
+      case "trigo":
+        return precoTrigo;
+      case "abóbora":
+        return precoAbobora;
+      default:
+        return 0;
     }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.sell}>
-        <button className={styles.venda} onClick={handleVender}>
+        <button
+          style={{ cursor: "pointer" }}
+          className={styles.venda}
+          onClick={handleVender}
+        >
           Vender
         </button>
       </div>
       <div className={styles.price}>
+        <p>Preço de mercado: R${precoMercado}</p>
         <input
           type="number"
           placeholder="Insira o preço aqui"
@@ -57,7 +124,7 @@ export default function PlantacoesMenu() {
         <input
           type="number"
           placeholder="Insira a quantidade aqui"
-          className={styles.input2}
+          className={styles.input1}
           value={quantidadeVender}
           onChange={(e) => setQuantidadeVender(Number(e.target.value))}
         />
@@ -68,8 +135,10 @@ export default function PlantacoesMenu() {
           onChange={(e) => setProdutoSelecionado(e.target.value)}
           className={styles.input1}
         >
-          <option value="milho">Milho</option>
+          <option value="trigo">Trigo</option>
           <option value="morango">Morango</option>
+          <option value="milho">Milho</option>
+          <option value="abóbora">Abóbora</option>
         </select>
       </div>
       {error && <div className={styles.error}>{error}</div>}
