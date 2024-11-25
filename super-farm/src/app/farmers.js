@@ -85,20 +85,19 @@ export default function Farmers() {
     const priceDifference = Math.abs(price - marketPrice) / marketPrice;
 
     let baseChance = 0.7;
-    if (price <= marketPrice) {
-      baseChance = 1;
+
+    if (priceDifference >= -0.2) {
+      baseChance = 0.9;
+    } else if (priceDifference >= 0.1) {
+      baseChance = 0.7;
+    } else if (priceDifference >= 0) {
+      baseChance = 0.5;
+    } else if (priceDifference >= -0.1) {
+      baseChance = 0.3;
     } else {
-      const priceDifference = (price - marketPrice) / marketPrice;
-      if (priceDifference <= 0.1) {
-        baseChance = 0.75;
-      } else if (priceDifference <= 0.2) {
-        baseChance = 0.6;
-      } else if (priceDifference <= 0.3) {
-        baseChance = 0.5;
-      } else {
-        baseChance = 0.4;
-      }
+      baseChance = 0.1;
     }
+
     const randomFactor = Math.random() * 0.2 - 0.1;
     const successChance = Math.max(0, Math.min(1, baseChance + randomFactor));
 
