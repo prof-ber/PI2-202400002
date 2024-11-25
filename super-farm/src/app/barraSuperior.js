@@ -9,17 +9,19 @@ export default function BarraSuperior() {
   const { products, strawberry } = useProducts();
   const [money] = useMoney();
 
-  useEffect(() => {}, [products, strawberry]);
+  // Atualiza a barra superior sempre que os valores de produtos ou dinheiro mudarem
+  useEffect(() => {
+    console.log("BarraSuperior atualizada!");
+  }, [products, strawberry, money]); // A função será chamada sempre que esses valores mudarem.
+
   return (
-    <>
-      <div className={styles.container}>
-        <PlantacoesMenu />
-        <div className={styles.recursos}>💰: {money}</div>
-        <div className={styles.containerfilho}>
-          <div className={styles.produto}>🌾: {products}</div>
-          <div className={styles.produto}>🍓: {strawberry}</div>
-        </div>
+    <div className={styles.container}>
+      <PlantacoesMenu />
+      <div className={styles.recursos}>💰: {money}</div>
+      <div className={styles.containerfilho}>
+        <div className={styles.produto}>🌾: {products}</div>
+        <div className={styles.produto}>🍓: {strawberry}</div>
       </div>
-    </>
+    </div>
   );
 }

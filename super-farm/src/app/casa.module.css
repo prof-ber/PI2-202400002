@@ -1,13 +1,26 @@
-.buttonContainer {
-  width: 5vw;
-  height: 5vw;
-  cursor: pointer;
-  position: absolute;
-  top: 6vw;
-  left: 50%;
-  transform: translateX(-50%);
+/* casa.module.css */
+.container {
+  text-align: center;
+  position: relative;
 }
-.imageoverlay {
-  width: 100%;
-  height: auto;
+
+.buttonContainer {
+  margin: 20px;
+}
+
+.plantacoesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.plantacao {
+  background-color: #7cfc00; /* Verde claro */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-sizing: border-box;
 }
