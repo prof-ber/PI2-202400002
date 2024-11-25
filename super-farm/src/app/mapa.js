@@ -47,7 +47,7 @@ export default function Mapa() {
 
           {crescimento === "crescendo" && (
             <Image
-              src="/milho_crescendo.png"
+              src="/milho.1.png"
               alt="Milho Crescendo"
               width={200}
               height={200}
@@ -57,7 +57,7 @@ export default function Mapa() {
           {crescimento === "pronto" && (
             <div onClick={colherMilho} style={{ cursor: "pointer" }}>
               <Image
-                src="/milho_pronto.png"
+                src="/milho.2.png"
                 alt="Milho Pronto para Colher"
                 width={200}
                 height={200}

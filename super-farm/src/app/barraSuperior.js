@@ -11,7 +11,11 @@ export default function BarraSuperior() {
   const { products, strawberry, corn, pumpkin } = useProducts();
   const [money] = useMoney();
 
-  useEffect(() => {}, [products, strawberry, corn, pumpkin]);
+  // Atualiza a barra superior sempre que os valores de produtos ou dinheiro mudarem
+  useEffect(() => {
+    console.log("BarraSuperior atualizada!");
+  }, [products, strawberry, money, corn, pumpkin]); // A função será chamada sempre que esses valores mudarem.
+
   return (
     <>
       <Market />

@@ -1,0 +1,26 @@
+/* casa.module.css */
+.container {
+  text-align: center;
+  position: relative;
+}
+
+.buttonContainer {
+  margin: 20px;
+}
+
+.plantacoesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.plantacao {
+  background-color: #7cfc00; /* Verde claro */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-sizing: border-box;
+}

@@ -13,11 +13,11 @@ export function ProductProvider({ children }) {
   const [precoTrigo, setPrecoTrigo] = useState(20);
   const [precoAbobora, setPrecoAbobora] = useState(15);
 
-  const handleHarvest = (produto) => {
+  const handleHarvest = (produto, quantidade) => {
     if (produto === "trigo") {
-      setProducts(products + 1);
+      setProducts(products + quantidade); // Incrementando a quantidade de milho
     } else if (produto === "morango") {
-      setStrawberry(strawberry + 1);
+      setStrawberry(strawberry + quantidade); // Incrementando a quantidade de morango
     } else if (produto === "milho") {
       setCorn(corn + 1);
     } else if (produto === "abóbora") {
