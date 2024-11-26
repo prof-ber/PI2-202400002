@@ -2,7 +2,7 @@ const express = require("express");
 const next = require("next");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
-const mysql2 = require("mysql2");
+const mysql2 = require("mysql2/promise");
 const bcrypt = require("bcrypt");
 
 const dev = process.env.NODE_ENV !== "production";
@@ -47,7 +47,6 @@ app
 
     server.post("/api/signup", async (req, res) => {
       const { email, senha, nome } = req.body;
-
       if (!email || !senha || !nome) {
         return res
           .status(400)
@@ -56,11 +55,14 @@ app
 
       let connection;
       try {
-        connection = await mysql2
-          .createConnection(options)
-          .then((conn) => conn.promise());
+        const connection = await mysql2.createConnection({
+          host: process.env.DB_HOST,
+          user: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
+        });
 
-        const [rows] = await connection.query(
+        const [rows] = await connection.execute(
           "SELECT * FROM users WHERE email = ?",
           [email]
         );
@@ -72,7 +74,7 @@ app
         const hashedPassword = await bcrypt.hash(senha, 10);
 
         await connection.query(
-          "INSERT INTO users (email, senha, nome) VALUES (?, ?, ?)",
+          "INSERT INTO users (email, password, nome) VALUES (?, ?, ?)",
           [email, hashedPassword, nome]
         );
 
