@@ -3,6 +3,7 @@ const next = require("next");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const mysql2 = require("mysql2");
+const bcrypt = require("bcrypt");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -14,9 +15,9 @@ const port = process.env.PORT || 3000;
 const options = {
   host: "localhost",
   port: 3306,
-  user: "your_mysql_user",
-  password: "your_mysql_password",
-  database: "your_database_name",
+  user: "root",
+  password: "admin",
+  database: "farm",
 };
 
 const connection = mysql2.createConnection(options);
@@ -43,6 +44,50 @@ app
 
     // Parse URL-encoded bodies
     server.use(express.urlencoded({ extended: true }));
+
+    server.post("/api/signup", async (req, res) => {
+      const { email, senha, nome } = req.body;
+
+      if (!email || !senha || !nome) {
+        return res
+          .status(400)
+          .json({ message: "Todos os campos são obrigatórios" });
+      }
+
+      let connection;
+      try {
+        connection = await mysql2
+          .createConnection(options)
+          .then((conn) => conn.promise());
+
+        const [rows] = await connection.query(
+          "SELECT * FROM users WHERE email = ?",
+          [email]
+        );
+
+        if (rows.length > 0) {
+          return res.status(422).json({ message: "Este usuário já existe" });
+        }
+
+        const hashedPassword = await bcrypt.hash(senha, 10);
+
+        await connection.query(
+          "INSERT INTO users (email, senha, nome) VALUES (?, ?, ?)",
+          [email, hashedPassword, nome]
+        );
+
+        res.status(200).json({ message: "Usuário criado com sucesso" });
+      } catch (error) {
+        console.error(error);
+        res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao tentar cadastrar o usuário" });
+      } finally {
+        if (connection) {
+          await connection.end();
+        }
+      }
+    });
 
     // Your custom routes go here
     server.get("/api/hello", (req, res) => {
