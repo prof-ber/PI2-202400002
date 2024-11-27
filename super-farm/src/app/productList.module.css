@@ -24,3 +24,41 @@
 .productprice {
   margin-left: 0.5rem;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .productitem {
+    padding: 12px;
+  }
+
+  .productname {
+    font-size: 1.1rem;
+  }
+
+  .productprice {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.25rem;
+  }
+
+  .productitem {
+    padding: 10px;
+    margin-bottom: 0.5rem;
+  }
+
+  .productname {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .productprice {
+    font-size: 0.8rem;
+  }
+}

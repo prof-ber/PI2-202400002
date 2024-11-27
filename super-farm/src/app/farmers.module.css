@@ -42,3 +42,41 @@
   cursor: pointer;
   border-radius: 20px;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    font-size: 1.3rem;
+  }
+
+  .farmersection {
+    padding: 0.8rem;
+  }
+
+  .input1,
+  .salebutton {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    font-size: 1.1rem;
+    padding: 0.5rem;
+  }
+
+  .farmersection {
+    padding: 0.6rem;
+    margin: 0.3rem;
+  }
+
+  .salesection {
+    margin-bottom: 0.8rem;
+  }
+
+  .input1,
+  .salebutton {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+}

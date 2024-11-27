@@ -28,3 +28,34 @@
   font-size: 1.5rem;
   font-family: "Merienda", cursive;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .recursos {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .containerfilho {
+    width: 100%;
+    align-items: center;
+  }
+
+  .produto,
+  .recursos {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .produto,
+  .recursos {
+    font-size: 1rem;
+  }
+}

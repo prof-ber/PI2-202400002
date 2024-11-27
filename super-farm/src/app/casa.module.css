@@ -70,3 +70,59 @@
   font-weight: bold;
   box-sizing: border-box;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .containerfilho {
+    gap: 0.3rem;
+  }
+
+  .house {
+    padding: 0.3rem;
+  }
+
+  .buttonContainer {
+    margin: 10px;
+  }
+
+  .button1,
+  .buttonbrown,
+  .buttonyellow,
+  .buttongolden {
+    padding: 1vw;
+    font-size: 2vw;
+  }
+
+  .plantacoesContainer {
+    gap: 5px;
+  }
+
+  .plantacao {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.3rem;
+  }
+
+  .button1,
+  .buttonbrown,
+  .buttonyellow,
+  .buttongolden {
+    padding: 1.5vw;
+    font-size: 3vw;
+  }
+
+  .plantacoesContainer {
+    gap: 3px;
+  }
+
+  .plantacao {
+    font-size: 0.7rem;
+  }
+}

@@ -48,3 +48,24 @@
   border-color: black;
   box-shadow: 0 0 5px rgb(0, 0, 0, 0.5);
 }
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.3rem;
+  }
+
+  .price {
+    font-size: 1.1rem;
+  }
+
+  .venda {
+    font-size: 1.2rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .input1 {
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    max-width: 250px;
+  }
+}
