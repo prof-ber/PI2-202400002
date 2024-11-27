@@ -112,14 +112,14 @@ export default function PlantacoesMenu() {
       </div>
       <div className={styles.price}>
         <p>Preço de mercado: R${precoMercado}</p>
-        <input
-          type="number"
-          placeholder="Insira o preço aqui"
-          className={styles.input1}
-          value={precoVender}
-          onChange={(e) => setPrecoVender(e.target.value)}
-        />
       </div>
+      <input
+        type="number"
+        placeholder="Insira o preço aqui"
+        className={styles.input1}
+        value={precoVender}
+        onChange={(e) => setPrecoVender(e.target.value)}
+      />
       <div className={styles.quantity}>
         <input
           type="number"

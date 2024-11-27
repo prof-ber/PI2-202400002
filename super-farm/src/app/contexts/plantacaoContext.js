@@ -19,7 +19,7 @@ export function PlantacaoProvider({ children }) {
       tipo: tipo,
       estado: "semente", // Semente inicialmente
       tempoCrescimento: 5000, // Tempo inicial de crescimento em milissegundos
-      quantidade: 20, // Quantidade de produto inicialmente 0
+      quantidade: 50, // Quantidade de produto inicialmente 0
       melhoria: 0, // Nível de melhoria da plantação
       inicioCrescimento: Date.now(), // Timestamp de quando o crescimento começou
     };
