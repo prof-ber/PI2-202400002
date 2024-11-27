@@ -2,8 +2,8 @@ const express = require("express");
 const next = require("next");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
-const mysql2 = require("mysql2");
-const bcrypt = require("bcrypt"); // Corrigido para usar require
+const mysql2 = require("mysql2/promise");
+const bcrypt = require("bcrypt");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -11,28 +11,19 @@ const handle = app.getRequestHandler();
 
 const port = process.env.PORT || 3000;
 
-// MySQL connection options
-const options = {
+const sessionStore = new MySQLStore({
   host: "localhost",
-  port: 3306,
-  user: "your_mysql_user",
-  password: "your_mysql_password",
-  database: "your_database_name",
-};
-
-const connection = mysql2.createConnection(options).promise(); // Usando `.promise()` para facilitar o uso de async/await
-const sessionStore = new MySQLStore({}, connection);
+  user: "root",
+  password: "admin",
+  database: "farm",
+});
 
 app
   .prepare()
   .then(() => {
     const server = express();
 
-    // Middleware para parsing de JSON e URL-encoded
-    server.use(express.json());
-    server.use(express.urlencoded({ extended: true }));
-
-    // Middleware para sessões
+    // Session middleware
     server.use(
       session({
         key: "session_cookie_name",
@@ -43,47 +34,113 @@ app
       })
     );
 
-    // Rota para registro de usuário
-    server.post("/api/register", async (req, res) => {
-      const { username, email, password } = req.body;
+    // Parse JSON bodies
+    server.use(express.json());
 
-      if (!username || !email || !password) {
+    // Parse URL-encoded bodies
+    server.use(express.urlencoded({ extended: true }));
+
+    server.post("/api/signup", async (req, res) => {
+      const { email, senha, nome } = req.body;
+      if (!email || !senha || !nome) {
         return res
           .status(400)
-          .json({ error: "Todos os campos são obrigatórios" });
+          .json({ message: "Todos os campos são obrigatórios" });
       }
 
+      let connection;
       try {
-        // Hash da senha
-        const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(password, saltRounds);
+        const connection = await mysql2.createConnection({
+          host: process.env.DB_HOST,
+          user: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
+        });
 
-        // Inserir usuário no banco
-        const query =
-          "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
-        await connection.query(query, [username, email, passwordHash]);
+        const [rows] = await connection.execute(
+          "SELECT * FROM users WHERE email = ?",
+          [email]
+        );
 
-        res.status(201).json({ message: "Usuário cadastrado com sucesso" });
-      } catch (error) {
-        console.error("Erro ao cadastrar usuário:", error);
-        if (error.code === "ER_DUP_ENTRY") {
-          return res.status(409).json({ error: "E-mail já cadastrado" });
+        if (rows.length > 0) {
+          return res.status(422).json({ message: "Este usuário já existe" });
         }
-        res.status(500).json({ error: "Erro ao cadastrar usuário" });
+
+        const hashedPassword = await bcrypt.hash(senha, 10);
+
+        await connection.execute(
+          "INSERT INTO users (email, password, nome) VALUES (?, ?, ?)",
+          [email, hashedPassword, nome]
+        );
+
+        res.status(200).json({ message: "Usuário criado com sucesso" });
+      } catch (error) {
+        console.error(error);
+        res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao tentar cadastrar o usuário" });
+      } finally {
+        if (connection) {
+          await connection.end();
+        }
       }
     });
 
-    // Rota de teste
+    server.get("/api/login", async (req, res) => {
+      const { email, senha } = req.body;
+
+      if (!email || !senha) {
+        return res
+          .status(400)
+          .json({ message: "Email e senha são necessários" });
+      }
+
+      try {
+        const connection = await mysql2.createConnection({
+          host: process.env.DB_HOST,
+          user: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
+        });
+
+        const [user] = await connection.execute(
+          "SELECT * FROM users WHERE email =?",
+          [email]
+        );
+
+        if (user.length === 0) {
+          connection.end();
+          return res.status(401).json({ message: "Email ou senha inválidos" });
+        }
+
+        const isValid = await bcrypt.compare(senha, user[0].password);
+
+        if (!isValid) {
+          connection.end();
+          res.status(401).json({ message: "Email ou senha inválidos" });
+        }
+
+        req.session.user = { id: user[0].id, email: user[0].email };
+        connection.end();
+        res.json({ message: "Login efetuado com sucesso" });
+      } catch (error) {
+        console.error(error);
+        res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao tentar fazer o login" });
+      }
+    });
+
+    // Your custom routes go here
     server.get("/api/hello", (req, res) => {
       res.json({ message: "Hello from the server!" });
     });
 
-    // Tratamento de todas as outras rotas com Next.js
+    // Handle all other routes with Next.js
     server.all("*", (req, res) => {
       return handle(req, res);
     });
 
-    // Iniciar o servidor
     server.listen(port, (err) => {
       if (err) throw err;
       console.log(`> Ready on http://localhost:${port}`);
