@@ -12,6 +12,8 @@ import Plantacoes from "./plantacoes";
 import Plantacoes2 from "./plantacoes2";
 import { MarketProvider } from "./contexts/marketContext";
 import Farmers from "./farmers";
+import ProductList from "./productList";
+import Market from "./market";
 
 export default function Home() {
   return (
@@ -24,6 +26,7 @@ export default function Home() {
                 <BarraSuperior />
                 <Casa />
                 <Farmers />
+                <Market />
               </div>
             </PlantacaoProvider>
           </ProductProvider>

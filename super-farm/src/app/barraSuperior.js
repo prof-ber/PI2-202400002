@@ -4,7 +4,6 @@ import styles from "./barraSuperior.module.css";
 import { useProducts } from "./contexts/productContext";
 import PlantacoesMenu from "./plantacoesMenu";
 import { useMoney } from "./contexts/moneyContext";
-import ProductList from "./productList";
 import Market from "./market";
 
 export default function BarraSuperior() {
@@ -18,7 +17,6 @@ export default function BarraSuperior() {
 
   return (
     <>
-      <Market />
       <div className={styles.container}>
         <PlantacoesMenu />
         <div className={styles.recursos}>💰: {money}</div>

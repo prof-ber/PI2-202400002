@@ -6,7 +6,7 @@ const ProductList = () => {
   const { products, updatePrice } = useMarket();
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Lista de Produtos</h2>
       <ul
         style={{
