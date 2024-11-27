@@ -182,7 +182,7 @@ export default function Farmers() {
           onChange={(e) => setPrice(Number(e.target.value))}
           className={styles.input1}
         />
-        <button onClick={handleSale} className={styles.saleButton}>
+        <button onClick={handleSale} className={styles.salebutton}>
           Propor Venda
         </button>
       </div>

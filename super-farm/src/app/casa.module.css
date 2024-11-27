@@ -1,13 +1,59 @@
 /* casa.module.css */
 .container {
   text-align: center;
-  position: relative;
 }
 
+.containerfilho {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.house {
+  background-color: #88c273;
+  padding: 0.5rem;
+}
+.caixabotao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .buttonContainer {
   margin: 20px;
 }
-
+.button1 {
+  cursor: pointer;
+  padding: 0.5vw;
+  font-size: 1vw;
+  border-radius: 15px;
+  border: none;
+  background-color: #a66e38;
+}
+.buttonbrown {
+  cursor: pointer;
+  padding: 0.5vw;
+  font-size: 1vw;
+  border-radius: 15px;
+  border: none;
+  background-color: #ab886d;
+}
+.buttonyellow {
+  cursor: pointer;
+  padding: 0.5vw;
+  font-size: 1vw;
+  border-radius: 15px;
+  border: none;
+  background-color: #fff100;
+}
+.buttongolden {
+  cursor: pointer;
+  padding: 0.5vw;
+  font-size: 1vw;
+  border-radius: 15px;
+  border: none;
+  background-color: #ffe15d;
+}
 .plantacoesContainer {
   display: flex;
   flex-wrap: wrap;
@@ -23,4 +69,60 @@
   justify-content: center;
   font-weight: bold;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .containerfilho {
+    gap: 0.3rem;
+  }
+
+  .house {
+    padding: 0.3rem;
+  }
+
+  .buttonContainer {
+    margin: 10px;
+  }
+
+  .button1,
+  .buttonbrown,
+  .buttonyellow,
+  .buttongolden {
+    padding: 1vw;
+    font-size: 2vw;
+  }
+
+  .plantacoesContainer {
+    gap: 5px;
+  }
+
+  .plantacao {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.3rem;
+  }
+
+  .button1,
+  .buttonbrown,
+  .buttonyellow,
+  .buttongolden {
+    padding: 1.5vw;
+    font-size: 3vw;
+  }
+
+  .plantacoesContainer {
+    gap: 3px;
+  }
+
+  .plantacao {
+    font-size: 0.7rem;
+  }
 }
