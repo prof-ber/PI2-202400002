@@ -103,6 +103,10 @@ export function PlantacaoProvider({ children }) {
         handleHarvest(produto, quantidade);
       } else if (produto === "morango") {
         handleHarvest(produto, quantidade);
+      } else if (produto === "trigo") {
+        handleHarvest(produto, quantidade);
+      } else if (produto === "abóbora") {
+        handleHarvest(produto, quantidade);
       }
     }
   };

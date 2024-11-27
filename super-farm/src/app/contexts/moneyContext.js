@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 const MoneyContext = createContext();
 
 export function MoneyProvider({ children }) {
-  const [money, setMoney] = useState(150000);
+  const [money, setMoney] = useState(5000000);
 
   const spendMoney = (amount) => {
     if (money >= amount) {

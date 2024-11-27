@@ -60,6 +60,25 @@ export default function Casa() {
         >
           Criar Plantação de Morango (Preço: {precoPlantacao} 💰)
         </button>
+        <button
+          onClick={() =>
+            handleCriarPlantacao(`Plantação ${plantacoes.length + 1}`, "trigo")
+          }
+          className={styles.button1}
+        >
+          Criar Plantação de Trigo (Preço: {precoPlantacao} 💰)
+        </button>
+        <button
+          onClick={() =>
+            handleCriarPlantacao(
+              `Plantação ${plantacoes.length + 1}`,
+              "abóbora"
+            )
+          }
+          className={styles.button1}
+        >
+          Criar Plantação de Abóbora (Preço: {precoPlantacao} 💰)
+        </button>
       </div>
 
       <div className={styles.containerfilho}>
