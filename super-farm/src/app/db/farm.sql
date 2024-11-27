@@ -1,3 +1,3 @@
 CREATE DATABASE farm;
-
+USE farm;
 CREATE TABLE users(user_id INT PRIMARY KEY auto_increment, email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(512) NOT NULL, nome VARCHAR(50));

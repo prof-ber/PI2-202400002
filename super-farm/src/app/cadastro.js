@@ -1,80 +1,81 @@
+"use client";
 import { useState } from "react";
 
-export default function RegisterForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    username: "",
-  });
-  const [message, setMessage] = useState("");
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+export default function Signup() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [nome, setNome] = useState("");
+  const [error, setError] = useState("");
+  const [debug, setDebug] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
+    setError("");
+    setDebug("");
 
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("http://localhost:3000/api/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, senha, nome }),
       });
-
-      const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao cadastrar usuário");
+        throw new Error(`Erro ${response.status}: ${response.statusText}`);
+      } else {
+        alert("Cadastrado com sucesso!");
+        setEmail("");
+        setSenha("");
+        setNome("");
       }
-
-      setMessage("Cadastro realizado com sucesso! Você já pode fazer login.");
     } catch (error) {
-      setMessage(error.message);
+      alert("Erro ao cadastrar:", error);
     }
   };
 
   return (
     <div>
-      <h1>Cadastro</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Nome de usuário:</label>
+          <label htmlFor="nome">Nome:</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
+            id="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="email">E-mail:</label>
+          <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="password">Senha:</label>
+          <label htmlFor="senha">Senha:</label>
           <input
             type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
+            id="senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
             required
           />
         </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Cadastrar</button>
       </form>
-      {message && <p>{message}</p>}
+      {debug && (
+        <div style={{ marginTop: "20px", whiteSpace: "pre-wrap" }}>
+          <h3>Debug Info:</h3>
+          <pre>{debug}</pre>
+        </div>
+      )}
     </div>
   );
 }
