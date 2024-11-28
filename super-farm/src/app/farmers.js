@@ -25,12 +25,18 @@ export default function Farmers() {
     { name: "Ana", product: "abóbora", quantity: 20, price: 12 },
   ];
 
+  const setMessageWithTimeout = (msg) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(""), 5000);
+  };
+
   const selectRandomFarmer = () => {
     if (waitingForFarmer) {
       const randomIndex = Math.floor(Math.random() * farmers.length);
       setCurrentFarmer(farmers[randomIndex]);
       setWaitingForFarmer(false);
       setTriesLeft(3);
+      setMessage("");
     }
   };
 
@@ -58,19 +64,77 @@ export default function Farmers() {
 
   const handleSale = () => {
     if (!currentFarmer) {
-      setMessage("Não há nenhum fazendeiro no momento.");
+      setMessageWIthTimeout("Não há nenhum fazendeiro no momento.");
       return;
     }
 
     if (triesLeft <= 0) {
-      setMessage(
+      setMessagewithTimeout(
         "Você não tem mais tentativas para negociar com este fazendeiro."
       );
       return;
     }
 
+    if (!selectedProduct) {
+      setMessageWithTimeout(
+        "Por favor, selecione um produto antes de propor uma venda."
+      );
+      return;
+    }
+
     if (selectedProduct !== currentFarmer.product) {
-      setMessage(
+      setMessageWithTimeout(
+        `O produto selecionado (${getProductDescription(
+          selectedProduct
+        )}) não é o que o fazendeiro está procurando (${getProductDescription(
+          currentFarmer.product
+        )}).`
+      );
+      setTriesLeft((prev) => prev - 1);
+      if (triesLeft === 1) {
+        handleFarmerDeparture();
+      }
+      return;
+    }
+
+    if (!price || price <= 0) {
+      setMessageWithTimeout(
+        "Por favor, defina um preço válido antes de propor uma venda."
+      );
+      return;
+    }
+
+    if (quantity > currentFarmer.quantity) {
+      setMessageWithTimeout(
+        `O fazendeiro está procurando apenas ${currentFarmer.quantity} unidades. Você está oferecendo muito.`
+      );
+      setTriesLeft((prev) => prev - 1);
+      if (triesLeft === 1) {
+        handleFarmerDeparture();
+      }
+      return;
+    }
+
+    if (quantity < currentFarmer.quantity) {
+      setMessageWithTimeout(
+        `O fazendeiro está procurando ${currentFarmer.quantity} unidades. Você está oferecendo menos do que ele precisa.`
+      );
+      setTriesLeft((prev) => prev - 1);
+      if (triesLeft === 1) {
+        handleFarmerDeparture();
+      }
+      return;
+    }
+
+    if (!quantity || quantity <= 0) {
+      setMessageWithTimeout(
+        "Por favor, defina uma quantidade válida antes de propor uma venda."
+      );
+      return;
+    }
+
+    if (selectedProduct !== currentFarmer.product) {
+      setMessageWithTimeout(
         "O produto selecionado não é o que o fazendeiro está procurando."
       );
       setTriesLeft((prev) => prev - 1);
@@ -85,17 +149,23 @@ export default function Farmers() {
     const priceDifference = Math.abs(price - marketPrice) / marketPrice;
 
     let baseChance = 0.7;
+    let happiness = 2;
 
-    if (priceDifference >= -0.2) {
+    if (priceDifference <= -0.2) {
       baseChance = 0.9;
-    } else if (priceDifference >= 0.1) {
+      happiness = 0;
+    } else if (priceDifference <= 0.1) {
       baseChance = 0.7;
+      happiness = 1;
     } else if (priceDifference >= 0) {
       baseChance = 0.5;
+      happiness = 2;
     } else if (priceDifference >= -0.1) {
       baseChance = 0.3;
+      happiness = 3;
     } else {
       baseChance = 0.1;
+      happiness = 3;
     }
 
     const randomFactor = Math.random() * 0.2 - 0.1;
@@ -114,7 +184,7 @@ export default function Farmers() {
         "O fazendeiro aceitou a negociação, mas não parece muito entusiasmado.",
       ];
 
-      setMessage(
+      setMessageWithTimeout(
         `Venda bem-sucedida! Você vendeu ${quantity} ${selectedProduct}(s) e ganhou R$${totalEarnings.toFixed(
           2
         )}. ${happinessMessages[happiness]}`
@@ -122,7 +192,7 @@ export default function Farmers() {
       setCurrentFarmer(null);
       setWaitingForFarmer(true);
     } else {
-      setMessage("O fazendeiro recusou a oferta.");
+      setMessageWithTimeout("O fazendeiro recusou a oferta.");
       setTriesLeft((prev) => {
         if (prev <= 1) {
           handleFarmerDeparture();
@@ -134,59 +204,65 @@ export default function Farmers() {
   };
 
   const handleFarmerDeparture = () => {
-    setMessage("O fazendeiro foi embora insatisfeito.");
+    setMessageWithTimeout("O fazendeiro foi embora insatisfeito.");
     setCurrentFarmer(null);
     setWaitingForFarmer(true);
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.farmersection}>
-        {currentFarmer ? (
-          <div className={styles.currentFarmer}>
-            <h3>Fazendeiro Atual:</h3>
-            <p>Nome: {currentFarmer.name}</p>
-            <p>
-              Procurando por: {getProductDescription(currentFarmer.product)}
-            </p>
-            <p>Quantidade desejada: {currentFarmer.quantity}</p>
-            <p>Tentativas restantes: {triesLeft}</p>
-          </div>
-        ) : (
-          <p>Aguardando um fazendeiro...</p>
-        )}
-      </div>
-      <div className={styles.salesection}>
-        <select
-          value={selectedProduct}
-          onChange={(e) => setSelectedProduct(e.target.value)}
-          className={styles.input1}
-        >
-          <option value="">Selecione um produto</option>
-          <option value="trigo">Trigo</option>
-          <option value="morango">Morango</option>
-          <option value="milho">Milho</option>
-          <option value="abóbora">Abóbora</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Quantidade"
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
-          className={styles.input1}
-        />
-        <input
-          type="number"
-          placeholder="Preço por unidade"
-          value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
-          className={styles.input1}
-        />
-        <button onClick={handleSale} className={styles.salebutton}>
-          Propor Venda
-        </button>
-      </div>
       {message && <div className={styles.message}>{message}</div>}
+      <div className={styles.content}>
+        <div className={styles.farmersection}>
+          {currentFarmer ? (
+            <div className={styles.currentFarmer}>
+              <h3>Fazendeiro Atual:</h3>
+              <p>Nome: {currentFarmer.name}</p>
+              <p>
+                Procurando por: {getProductDescription(currentFarmer.product)}
+              </p>
+              <p>Quantidade desejada: {currentFarmer.quantity}</p>
+              <p>Tentativas restantes: {triesLeft}</p>
+            </div>
+          ) : (
+            <p>Aguardando um fazendeiro...</p>
+          )}
+        </div>
+        <div className={styles.salesection}>
+          <select
+            value={selectedProduct}
+            onChange={(e) => setSelectedProduct(e.target.value)}
+            className={styles.input1}
+          >
+            <option value="">Selecione um produto</option>
+            <option value="trigo">Trigo</option>
+            <option value="morango">Morango</option>
+            <option value="milho">Milho</option>
+            <option value="abóbora">Abóbora</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Quantidade"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className={styles.input1}
+          />
+          <input
+            type="number"
+            placeholder="Preço por unidade"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
+            className={styles.input1}
+          />
+          <button
+            style={{ cursor: "pointer" }}
+            onClick={handleSale}
+            className={styles.salebutton}
+          >
+            Propor Venda
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

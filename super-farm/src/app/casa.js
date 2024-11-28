@@ -40,12 +40,12 @@ export default function Casa() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttonContainer}>
+      <div className={styles.topButtonsContainer}>
         <button
           onClick={() =>
             handleCriarPlantacao(`Plantação ${plantacoes.length + 1}`, "milho")
           }
-          className={styles.button1}
+          className={styles.topButton}
         >
           Criar Plantação de Milho (Preço: {precoPlantacao} 💰)
         </button>
@@ -56,7 +56,7 @@ export default function Casa() {
               "morango"
             )
           }
-          className={styles.button1}
+          className={styles.topButton}
         >
           Criar Plantação de Morango (Preço: {precoPlantacao} 💰)
         </button>
@@ -64,7 +64,7 @@ export default function Casa() {
           onClick={() =>
             handleCriarPlantacao(`Plantação ${plantacoes.length + 1}`, "trigo")
           }
-          className={styles.button1}
+          className={styles.topButton}
         >
           Criar Plantação de Trigo (Preço: {precoPlantacao} 💰)
         </button>
@@ -75,22 +75,22 @@ export default function Casa() {
               "abóbora"
             )
           }
-          className={styles.button1}
+          className={styles.topButton}
         >
           Criar Plantação de Abóbora (Preço: {precoPlantacao} 💰)
         </button>
       </div>
 
-      <div className={styles.containerfilho}>
+      <div className={styles.plantacoesContainer}>
         {plantacoes.length === 0 ? (
           <p>Nenhuma plantação disponível.</p>
         ) : (
           plantacoes.map((plantacao) => (
-            <div className={styles.house} key={plantacao.id}>
+            <div className={styles.plantacao} key={plantacao.id}>
               <h3>{plantacao.nome}</h3>
               <p>Status: {plantacao.estado}</p>
               <p>Melhoria: {plantacao.melhoria}</p>
-              <div className={styles.caixabotao}>
+              <div className={styles.plantacaoBotoes}>
                 <button
                   onClick={() => iniciarCrescimento(plantacao.id)}
                   disabled={plantacao.estado !== "semente"}
