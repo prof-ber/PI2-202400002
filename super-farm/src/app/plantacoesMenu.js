@@ -59,31 +59,52 @@ export default function PlantacoesMenu() {
         `Você não tem ${produtoSelecionado} suficiente! Você tem apenas ${estoqueAtual} unidade(s).`
       );
     } else {
-      const priceDifference = Math.abs(preco - marketPrice) / marketPrice;
-      const baseChance = 0.7;
-      const successChance = Math.max(0, baseChance - priceDifference);
+      const totalEarnings = preco * quantidadeVender;
 
-      if (Math.random() < successChance) {
-        const totalEarnings = preco * quantidadeVender;
-        setMoney((prevMoney) => prevMoney + totalEarnings);
-        handleSell(produtoSelecionado, quantidadeVender);
+      // Always remove the products from inventory
+      handleSell(produtoSelecionado, quantidadeVender);
+
+      if (preco > marketPrice) {
+        const priceDifference = (preco - marketPrice) / marketPrice;
+        const baseChance = 0.7;
+        const successChance = Math.max(0, baseChance - priceDifference);
+
+        if (Math.random() < successChance) {
+          setError(
+            `Venda bem-sucedida com preço acima do mercado! Você vendeu ${quantidadeVender} ${produtoSelecionado}(s) por R$${totalEarnings.toFixed(
+              2
+            )}.`
+          );
+          setMoney((prevMoney) => prevMoney + totalEarnings);
+        } else {
+          setError(
+            `Venda falhou! O preço R$${preco.toFixed(
+              2
+            )} é muito alto comparado ao preço de mercado R$${marketPrice.toFixed(
+              2
+            )}. Você perdeu ${quantidadeVender} ${produtoSelecionado}(s).`
+          );
+        }
+      } else if (preco < marketPrice) {
         setError(
-          `Venda bem-sucedida! Você vendeu ${quantidadeVender} ${produtoSelecionado} (s) e ganhou R$${totalEarnings.toFixed(
+          `Venda realizada abaixo do preço de mercado. Você vendeu ${quantidadeVender} ${produtoSelecionado}(s) por R$${totalEarnings.toFixed(
             2
           )}.`
         );
+        setMoney((prevMoney) => prevMoney + totalEarnings);
       } else {
-        handleSell(produtoSelecionado, quantidadeVender);
         setError(
-          `Venda falhou! Você perdeu ${quantidadeVender} ${produtoSelecionado}(s).`
+          `Venda realizada pelo preço de mercado. Você vendeu ${quantidadeVender} ${produtoSelecionado}(s) por R$${totalEarnings.toFixed(
+            2
+          )}.`
         );
+        setMoney((prevMoney) => prevMoney + totalEarnings);
       }
 
-      setPrecoVender(""); // Clear the price field
-      setQuantidadeVender(1); // Reset the sale quantity
+      setPrecoVender("");
+      setQuantidadeVender(1);
     }
   };
-
   const getProductPrice = (product) => {
     switch (product) {
       case "milho":
