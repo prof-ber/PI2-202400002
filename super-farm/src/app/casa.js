@@ -40,11 +40,12 @@ export default function Casa() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttonContainer}>
+      <div className={styles.topButtonsContainer}>
         <button
           onClick={() =>
             handleCriarPlantacao(`Plantação ${plantacoes.length + 1}`, "milho")
           }
+          className={styles.topButton}
         >
           Criar Plantação de Milho (Preço: {precoPlantacao} 💰)
         </button>
@@ -55,38 +56,63 @@ export default function Casa() {
               "morango"
             )
           }
+          className={styles.topButton}
         >
           Criar Plantação de Morango (Preço: {precoPlantacao} 💰)
         </button>
+        <button
+          onClick={() =>
+            handleCriarPlantacao(`Plantação ${plantacoes.length + 1}`, "trigo")
+          }
+          className={styles.topButton}
+        >
+          Criar Plantação de Trigo (Preço: {precoPlantacao} 💰)
+        </button>
+        <button
+          onClick={() =>
+            handleCriarPlantacao(
+              `Plantação ${plantacoes.length + 1}`,
+              "abóbora"
+            )
+          }
+          className={styles.topButton}
+        >
+          Criar Plantação de Abóbora (Preço: {precoPlantacao} 💰)
+        </button>
       </div>
 
-      <div>
+      <div className={styles.plantacoesContainer}>
         {plantacoes.length === 0 ? (
           <p>Nenhuma plantação disponível.</p>
         ) : (
           plantacoes.map((plantacao) => (
-            <div key={plantacao.id}>
+            <div className={styles.plantacao} key={plantacao.id}>
               <h3>{plantacao.nome}</h3>
               <p>Status: {plantacao.estado}</p>
               <p>Melhoria: {plantacao.melhoria}</p>
-              <button
-                onClick={() => iniciarCrescimento(plantacao.id)}
-                disabled={plantacao.estado !== "semente"}
-              >
-                Plantar
-              </button>
-              <button
-                onClick={() => colherPlantacao(plantacao.id)}
-                disabled={plantacao.estado !== "pronto"}
-              >
-                Colher (Quantidade: {plantacao.quantidade})
-              </button>
-              <button
-                onClick={() => handleMelhorar(plantacao.id)}
-                disabled={plantacao.estado !== "crescendo"}
-              >
-                Melhorar (Custo: {precoMelhoria} 💰)
-              </button>
+              <div className={styles.plantacaoBotoes}>
+                <button
+                  onClick={() => iniciarCrescimento(plantacao.id)}
+                  disabled={plantacao.estado !== "semente"}
+                  className={styles.buttonbrown}
+                >
+                  Plantar
+                </button>
+                <button
+                  onClick={() => colherPlantacao(plantacao.id)}
+                  disabled={plantacao.estado !== "pronto"}
+                  className={styles.buttonyellow}
+                >
+                  Colher (Quantidade: {plantacao.quantidade})
+                </button>
+                <button
+                  onClick={() => handleMelhorar(plantacao.id)}
+                  disabled={plantacao.estado !== "crescendo"}
+                  className={styles.buttongolden}
+                >
+                  Melhorar (Custo: {precoMelhoria} 💰)
+                </button>
+              </div>
             </div>
           ))
         )}

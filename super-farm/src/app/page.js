@@ -17,6 +17,8 @@ import Casa from "./casa";
 import Plantacoes from "./plantacoes";
 import Plantacoes2 from "./plantacoes2";
 import Farmers from "./farmers";
+import ProductList from "./productList";
+import Market from "./market";
 import Signup from "./cadastro";
 import Login from "./login";
 import Save from "./save";
@@ -61,20 +63,23 @@ function GameContent() {
       <Signup />
       <Login />
       <Save />
+      <Market />
     </div>
   );
 }
 
 export default function Home() {
   return (
-    <MarketProvider>
-      <MoneyProvider>
-        <ProductProvider>
-          <PlantacaoProvider>
-            <GameContent />
-          </PlantacaoProvider>
-        </ProductProvider>
-      </MoneyProvider>
-    </MarketProvider>
+    <>
+      <MarketProvider>
+        <MoneyProvider>
+          <ProductProvider>
+            <PlantacaoProvider>
+              <GameContent />
+            </PlantacaoProvider>
+          </ProductProvider>
+        </MoneyProvider>
+      </MarketProvider>
+    </>
   );
 }

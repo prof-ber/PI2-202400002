@@ -1,26 +1,111 @@
-/* casa.module.css */
 .container {
-  text-align: center;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
 }
 
-.buttonContainer {
-  margin: 20px;
+.topButtonsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.topButton {
+  cursor: pointer;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 15px;
+  border: none;
+  background-color: #a66e38;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.topButton:hover {
+  background-color: #8c5c2e;
 }
 
 .plantacoesContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .plantacao {
-  background-color: #7cfc00; /* Verde claro */
-  text-align: center;
+  background-color: #88c273;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.plantacaoBotoes {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  box-sizing: border-box;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.buttonbrown,
+.buttonyellow,
+.buttongolden {
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  transition: opacity 0.3s;
+}
+
+.buttonbrown {
+  background-color: #ab886d;
+}
+
+.buttonyellow {
+  background-color: #fff100;
+  color: black;
+}
+
+.buttongolden {
+  background-color: #ffe15d;
+  color: black;
+}
+
+.buttonbrown:hover,
+.buttonyellow:hover,
+.buttongolden:hover {
+  opacity: 0.8;
+}
+
+.buttonbrown:disabled,
+.buttonyellow:disabled,
+.buttongolden:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+  .topButtonsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .plantacoesContainer {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .topButton,
+  .buttonbrown,
+  .buttonyellow,
+  .buttongolden {
+    font-size: 0.8rem;
+    padding: 0.6rem;
+  }
 }

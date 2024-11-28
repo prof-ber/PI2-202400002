@@ -19,9 +19,9 @@ export function ProductProvider({ children }) {
     } else if (produto === "morango") {
       setStrawberry(strawberry + quantidade); // Incrementando a quantidade de morango
     } else if (produto === "milho") {
-      setCorn(corn + 1);
+      setCorn(corn + quantidade);
     } else if (produto === "abóbora") {
-      setPumpkin(pumpkin + 1);
+      setPumpkin(pumpkin + quantidade);
     }
   };
 

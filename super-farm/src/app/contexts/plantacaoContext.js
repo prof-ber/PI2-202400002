@@ -19,7 +19,7 @@ export function PlantacaoProvider({ children }) {
       tipo: tipo,
       estado: "semente", // Semente inicialmente
       tempoCrescimento: 5000, // Tempo inicial de crescimento em milissegundos
-      quantidade: 20, // Quantidade de produto inicialmente 0
+      quantidade: 50, // Quantidade de produto inicialmente 0
       melhoria: 0, // Nível de melhoria da plantação
       inicioCrescimento: Date.now(), // Timestamp de quando o crescimento começou
     };
@@ -102,6 +102,10 @@ export function PlantacaoProvider({ children }) {
       if (produto === "milho") {
         handleHarvest(produto, quantidade);
       } else if (produto === "morango") {
+        handleHarvest(produto, quantidade);
+      } else if (produto === "trigo") {
+        handleHarvest(produto, quantidade);
+      } else if (produto === "abóbora") {
         handleHarvest(produto, quantidade);
       }
     }
