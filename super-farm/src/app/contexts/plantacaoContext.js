@@ -153,6 +153,7 @@ export function PlantacaoProvider({ children }) {
         iniciarCrescimento,
         colherPlantacao,
         melhorarPlantacao,
+        setPlantacoes,
       }}
     >
       {children}
