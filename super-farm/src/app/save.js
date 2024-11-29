@@ -3,6 +3,7 @@ import { usePlantacaoContext } from "./contexts/plantacaoContext";
 import { useMoney } from "./contexts/moneyContext";
 import { useProducts } from "./contexts/productContext";
 import { useMarket } from "./contexts/marketContext";
+import styles from "./save.module.css";
 
 export default function Save() {
   const { plantacoes } = usePlantacaoContext();
@@ -49,5 +50,11 @@ export default function Save() {
     }
   };
 
-  return <button onClick={handleClick}>Save Game</button>;
+  return (
+    <div className={styles.container}>
+      <button onClick={handleClick} className={styles.button1}>
+        Save Game
+      </button>
+    </div>
+  );
 }

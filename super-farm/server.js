@@ -308,6 +308,24 @@ app
         }
       }
     });
+
+    server.get("/api/logincheck", async (req, res) => {
+      if (req.session.user) {
+        res.status(200).json({ user: req.session.user });
+      } else {
+        res.status(401).json({ message: "Not authenticated" });
+      }
+    });
+
+    server.get("/api/logout", (req, res) => {
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ message: "Failed to log out" });
+        }
+        res.status(200).json({ message: "Logout successful" });
+      });
+    });
+
     server.get("/api/check-auth", (req, res) => {
       if (req.session.user) {
         res.status(200).json({ authenticated: true });

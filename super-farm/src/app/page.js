@@ -23,6 +23,7 @@ import Signup from "./cadastro";
 import Login from "./login";
 import Save from "./save";
 import { useLoadGame } from "./useLoadGame";
+import User from "./user";
 
 function GameContent() {
   const { loadGame, loading, error } = useLoadGame();
@@ -60,10 +61,8 @@ function GameContent() {
       <BarraSuperior />
       <Casa />
       <Farmers />
-      <Signup />
-      <Login />
-      <Save />
       <Market />
+      <User />
     </div>
   );
 }

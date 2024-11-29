@@ -1,11 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import styles from "./login.module.css";
+import Signup from "./cadastro";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [account, setAccount] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -47,30 +50,65 @@ export default function Login() {
     setIsLoggedIn(false);
   };
 
+  const handleSignup = (showSignup = true) => {
+    setAccount(showSignup);
+  };
+
   return (
-    <div>
-      {!isLoggedIn ? (
-        <form onSubmit={handleSubmit} style={{ display: "inline" }}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-          <input
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            placeholder="Senha"
-            required
-          />
-          <button type="submit">Entrar</button>
-        </form>
-      ) : (
-        <button onClick={handleLogout}>Sair</button>
-      )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className={styles.container}>
+      <div className={styles.promptcontainer}>
+        {isLoggedIn ? (
+          <div className={styles.loggedin}>
+            <p>Você está logado!</p>
+            <button onClick={handleLogout} className={styles.button1}>
+              Sair
+            </button>
+          </div>
+        ) : account ? (
+          <Signup onBack={() => handleSignup(false)} />
+        ) : (
+          <form onSubmit={handleSubmit} className={styles.form1}>
+            <h2 className={styles.title}>Login</h2>
+            <div className={styles.inputgroup}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                required
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.inputgroup}>
+              <input
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Senha"
+                required
+                className={styles.input}
+              />
+            </div>
+            <button type="submit" className={styles.button1}>
+              Entrar
+            </button>
+            <div className={styles.signupprompt}>
+              <p>Não tem uma conta ainda?</p>
+              <button
+                onClick={() => handleSignup(true)}
+                className={styles.signupbutton}
+              >
+                Criar uma conta
+              </button>
+              <p className={styles.benefits}>
+                Crie uma conta para salvar seu progresso, competir com amigos e
+                muito mais!
+              </p>
+            </div>
+          </form>
+        )}
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
     </div>
   );
 }
