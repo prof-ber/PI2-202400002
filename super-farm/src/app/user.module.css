@@ -1,0 +1,70 @@
+.container {
+  position: fixed;
+  border-radius: 50%;
+  width: 5rem;
+  background-color: chartreuse;
+  padding: 1rem;
+  bottom: 2rem; /* Changed from top: 90% to bottom: 2rem */
+  right: 2rem; /* Changed from left: 80% to right: 2rem */
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.button1 {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.button1:hover {
+  background-color: #d32f2f;
+}
+
+.button1:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.5);
+}
+
+.loggedin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loggedin p {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* For screens with low resolution (width less than or equal to 768px) */
+@media screen and (max-width: 768px) {
+  .container {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* For even smaller screens (width less than or equal to 480px) */
+@media screen and (max-width: 480px) {
+  .container {
+    bottom: 0.5rem;
+    right: 0.5rem;
+  }
+}

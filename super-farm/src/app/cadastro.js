@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import styles from "./cadastro.module.css";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -35,47 +36,56 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="nome">Nome:</label>
-          <input
-            type="text"
-            id="nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="senha">Senha:</label>
-          <input
-            type="password"
-            id="senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Cadastrar</button>
-      </form>
-      {debug && (
-        <div style={{ marginTop: "20px", whiteSpace: "pre-wrap" }}>
-          <h3>Debug Info:</h3>
-          <pre>{debug}</pre>
-        </div>
-      )}
-    </div>
+    <>
+      <div className={styles.container}>
+        <form onSubmit={handleSubmit} className={styles.form1}>
+          <h2 className={styles.title}>Cadastro</h2>
+          <div className={styles.inputgroup}>
+            <label htmlFor="nome">Nome:</label>
+            <input
+              type="text"
+              id="nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.inputgroup}>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.inputgroup}>
+            <label htmlFor="senha">Senha:</label>
+            <input
+              type="password"
+              id="senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+            />
+          </div>
+          {error && (
+            <p style={{ color: "red" }} className={styles.error}>
+              {error}
+            </p>
+          )}
+          <button type="submit" className={styles.button1}>
+            Cadastrar
+          </button>
+        </form>
+        {debug && (
+          <div style={{ marginTop: "20px", whiteSpace: "pre-wrap" }}>
+            <h3>Debug Info:</h3>
+            <pre>{debug}</pre>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
